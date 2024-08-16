@@ -1,2 +1,2 @@
 alter table "user"
-    add constraint unique on (email);
+    add constraint unique_user_username unique (email);
