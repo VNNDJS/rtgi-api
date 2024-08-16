@@ -149,6 +149,7 @@ paths:
         schema:
           type: string
     get:
+      operationId: getGreenSpaces
       parameters:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/page_size"
@@ -212,7 +213,22 @@ paths:
     put:
       security:
         - bearerAuth: [ ]
+      operationId: crupdateGreenSpace
+      tags:
+        - Green_Spaces
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/GreenSpace"
       responses:
+        '200':
+          description: crupdated greenspace
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/GreenSpace"
+
         '400':
           $ref: '#/components/responses/400'
         '403':
@@ -476,6 +492,9 @@ components:
       type: object
       properties:
         id:
+          type: string
+        user_id:
+          description: owner or representative id
           type: string
         profile:
           $ref: "#/components/schemas/GreenSpaceProfile"
