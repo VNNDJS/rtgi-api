@@ -4,7 +4,7 @@ info:
   description: Api to help Malagasy people to get to know our green spaces and our various species
   version: latest
 servers:
-  - url: 'http:localhost:8080'
+  - url: 'http://localhost:8080'
 paths:
   /signup:
     put:
