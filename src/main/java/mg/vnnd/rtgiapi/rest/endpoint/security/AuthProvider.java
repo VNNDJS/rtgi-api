@@ -34,8 +34,13 @@ public class AuthProvider extends AbstractUserDetailsAuthenticationProvider {
     if (bearer == null) {
       throw new UsernameNotFoundException("Bad credentials"); // NOSONAR
     }
-    if (jwtService.isTokenExpired(bearer)) {
-      throw new AuthenticationServiceException("token expired");
+    try {
+      var isExpired = jwtService.isTokenExpired(bearer);
+      if (isExpired) {
+        throw new AuthenticationServiceException("token expired");
+      }
+    } catch (JwtException e) {
+      throw new AuthenticationServiceException("bad token");
     }
     String extractedEmail;
     try {

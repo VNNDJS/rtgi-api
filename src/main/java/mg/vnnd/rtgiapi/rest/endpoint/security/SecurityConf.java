@@ -98,6 +98,8 @@ public class SecurityConf {
                     .permitAll()
                     .requestMatchers(GET, "/green-spaces/*/animal-statistics")
                     .permitAll()
+                    .requestMatchers(GET, "/events")
+                    .permitAll()
                     .requestMatchers(GET, "/whoami")
                     .hasAnyRole(COMMON.getRole(), GREEN_REPRESENTATIVE.getRole())
                     .requestMatchers(GET, "users/*")
