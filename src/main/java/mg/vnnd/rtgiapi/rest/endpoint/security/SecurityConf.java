@@ -76,7 +76,8 @@ public class SecurityConf {
                     antMatcher(GET, "/users/*"),
                     antMatcher(PUT, "/users/*"),
                     antMatcher(PUT, "/green-spaces/*"),
-                    antMatcher(PUT, "/events/*"))),
+                    antMatcher(PUT, "/events/*"),
+                    antMatcher(PUT, "/green-spaces/*/animal-statistics"))),
             AnonymousAuthenticationFilter.class)
         .authorizeHttpRequests(
             (authorize) ->
@@ -103,6 +104,10 @@ public class SecurityConf {
                     .hasRole(GREEN_REPRESENTATIVE.getRole())
                     .requestMatchers(PUT, "/events/*")
                     .hasRole(GREEN_REPRESENTATIVE.getRole())
+                    .requestMatchers(PUT, "/green-spaces/*/animal-statistics")
+                    .hasRole(GREEN_REPRESENTATIVE.getRole())
+                    .requestMatchers(GET, "/green-spaces/*/animal-statistics")
+                    .permitAll()
                     .anyRequest()
                     .denyAll())
         // disable superfluous protections
