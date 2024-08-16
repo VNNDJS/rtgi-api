@@ -23,9 +23,9 @@ public class EventController {
 
   @GetMapping("/events")
   public GetEvents200Response getEvents(
-      @RequestParam("green_space_id") String greenSpaceId,
-      @RequestParam PageFromOne page,
-      @RequestParam("page_size") BoundedPageSize pageSize) {
+      @RequestParam(value = "green_space_id", required = false) String greenSpaceId,
+      @RequestParam(required = false) PageFromOne page,
+      @RequestParam(value = "page_size", required = false) BoundedPageSize pageSize) {
     var pagedData = service.getAll(greenSpaceId, page, pageSize);
     return new GetEvents200Response()
         .pageNumber(page.getValue())

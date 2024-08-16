@@ -24,8 +24,8 @@ public class AnimalController {
   public GetGspAnimals200Response getGspAnimals(
       @PathVariable("gsp_id") String gspId,
       @RequestParam(required = false, name = "is_endemic") Boolean isEndemic,
-      @RequestParam("page") PageFromOne page,
-      @RequestParam("page_size") BoundedPageSize pageSize) {
+      @RequestParam(value = "page", required = false) PageFromOne page,
+      @RequestParam(value = "page_size", required = false) BoundedPageSize pageSize) {
     var data = service.findAllBy(gspId, isEndemic, page, pageSize);
     return new GetGspAnimals200Response()
         .hasPrevious(data.hasPrevious())

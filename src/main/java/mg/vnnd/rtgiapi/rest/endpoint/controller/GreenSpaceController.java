@@ -21,9 +21,9 @@ public class GreenSpaceController {
 
   @GetMapping("/green-spaces")
   public GetGreenSpaces200Response getGreenSpaces(
-      @RequestParam("user_id") String userId,
-      @RequestParam PageFromOne page,
-      @RequestParam("page_size") BoundedPageSize pageSize) {
+      @RequestParam(value = "user_id", required = false) String userId,
+      @RequestParam(required = false) PageFromOne page,
+      @RequestParam(value = "page_size", required = false) BoundedPageSize pageSize) {
     var data = service.findAllBy(userId, page, pageSize);
     return new GetGreenSpaces200Response()
         .data(data.data().stream().map(mapper::toRest).toList())
