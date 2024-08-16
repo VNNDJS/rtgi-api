@@ -1,4 +1,13 @@
-# 0.1.0 (2024-08-16)
+## [0.1.1](https://github.com/VNNDJS/rtgi-api/compare/v0.1.0...v0.1.1) (2024-08-16)
+
+
+### Bug Fixes
+
+* correctly set security api ([29e5107](https://github.com/VNNDJS/rtgi-api/commit/29e51077cc823211627429eac563b6777bae8ba3))
+
+
+
+# [0.1.0](https://github.com/VNNDJS/rtgi-api/compare/3963358867a9e5266c990cfc080da0e94639f356...v0.1.0) (2024-08-16)
 
 
 ### Features
