@@ -1,3 +1,22 @@
+# [0.2.0](https://github.com/VNNDJS/rtgi-api/compare/v0.1.1...v0.2.0) (2024-08-16)
+
+
+### Bug Fixes
+
+* green space user id is in path ([0816a2d](https://github.com/VNNDJS/rtgi-api/commit/0816a2de3fe6a2b6ef5cf91aa52f88e102571859))
+* user id filter is not required for green spaces ([054d171](https://github.com/VNNDJS/rtgi-api/commit/054d1715738336ad8079001663a14769f35f27a9))
+
+
+### Features
+
+* animal ([33070a4](https://github.com/VNNDJS/rtgi-api/commit/33070a4eaf58367f7df51c46518c4ab227739666))
+* Event -> EventModel ([f3a9119](https://github.com/VNNDJS/rtgi-api/commit/f3a91194d9b2adae3ad8bf2d057ac9eb8a4c3611))
+* events ([53b2dcf](https://github.com/VNNDJS/rtgi-api/commit/53b2dcfddd541145bee53f810eaeb013580f4f9c))
+* green spaces put get getlist ([ff09653](https://github.com/VNNDJS/rtgi-api/commit/ff0965384b869c874595c74765330c9b55a348c2))
+* green_spaces api update ([03e8755](https://github.com/VNNDJS/rtgi-api/commit/03e875510e66ec391d6c2c4d887647694650b869))
+
+
+
 ## [0.1.1](https://github.com/VNNDJS/rtgi-api/compare/v0.1.0...v0.1.1) (2024-08-16)
 
 
