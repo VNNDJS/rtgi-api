@@ -2,7 +2,7 @@ package mg.vnnd.rtgiapi.rest.endpoint.controller;
 
 import lombok.AllArgsConstructor;
 import mg.vnnd.rtgiapi.endpoint.rest.model.CrupdateEvent;
-import mg.vnnd.rtgiapi.endpoint.rest.model.Event;
+import mg.vnnd.rtgiapi.endpoint.rest.model.EventModel;
 import mg.vnnd.rtgiapi.endpoint.rest.model.GetEvents200Response;
 import mg.vnnd.rtgiapi.model.BoundedPageSize;
 import mg.vnnd.rtgiapi.model.PageFromOne;
@@ -36,12 +36,12 @@ public class EventController {
   }
 
   @GetMapping("/events/{event_id}")
-  public Event getEvent(@PathVariable("event_id") String eventId) {
+  public EventModel getEvent(@PathVariable("event_id") String eventId) {
     return mapper.toRest(service.getById(eventId));
   }
 
   @PutMapping("/events/{event_id}")
-  public Event crupdate(
+  public EventModel crupdate(
       @PathVariable("event_id") String eventId, @RequestBody CrupdateEvent crupdateEvent) {
     return mapper.toRest(service.save(eventId, mapper.toDomain(crupdateEvent)));
   }

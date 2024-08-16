@@ -8,7 +8,7 @@ import mg.vnnd.rtgiapi.model.Page;
 import mg.vnnd.rtgiapi.model.PageFromOne;
 import mg.vnnd.rtgiapi.model.exception.NotFoundException;
 import mg.vnnd.rtgiapi.rest.endpoint.repository.EventRepository;
-import mg.vnnd.rtgiapi.rest.endpoint.repository.model.Event;
+import mg.vnnd.rtgiapi.rest.endpoint.repository.model.EventModel;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service;
 public class EventService {
   private final EventRepository repository;
 
-  public Page<Event> getAll(String greenSpaceId, PageFromOne page, BoundedPageSize pageSize) {
+  public Page<EventModel> getAll(String greenSpaceId, PageFromOne page, BoundedPageSize pageSize) {
     var pageable = PageRequest.of(page.getValue() - 1, pageSize.getValue());
-    List<Event> data;
+    List<EventModel> data;
     if (greenSpaceId != null) {
       data = repository.findAllByGreenSpaceId(greenSpaceId);
     } else {
@@ -28,15 +28,15 @@ public class EventService {
     return new Page<>(page, pageSize, data);
   }
 
-  public Optional<Event> findById(String id) {
+  public Optional<EventModel> findById(String id) {
     return repository.findById(id);
   }
 
-  public Event getById(String id) {
-    return findById(id).orElseThrow(() -> new NotFoundException("Event " + id + "not found."));
+  public EventModel getById(String id) {
+    return findById(id).orElseThrow(() -> new NotFoundException("EventModel " + id + "not found."));
   }
 
-  public Event save(String eventId, Event event) {
-    return repository.save(event);
+  public EventModel save(String eventId, EventModel eventModel) {
+    return repository.save(eventModel);
   }
 }

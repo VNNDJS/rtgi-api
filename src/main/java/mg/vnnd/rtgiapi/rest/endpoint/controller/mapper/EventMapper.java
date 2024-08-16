@@ -1,15 +1,15 @@
 package mg.vnnd.rtgiapi.rest.endpoint.controller.mapper;
 
 import mg.vnnd.rtgiapi.endpoint.rest.model.CrupdateEvent;
-import mg.vnnd.rtgiapi.endpoint.rest.model.Event;
+import mg.vnnd.rtgiapi.endpoint.rest.model.EventModel;
 import mg.vnnd.rtgiapi.endpoint.rest.model.Location;
 import org.springframework.stereotype.Component;
 
 @Component
 public class EventMapper {
-  public mg.vnnd.rtgiapi.rest.endpoint.repository.model.Event toDomain(CrupdateEvent event) {
+  public mg.vnnd.rtgiapi.rest.endpoint.repository.model.EventModel toDomain(CrupdateEvent event) {
     Location location = event.getLocation();
-    return mg.vnnd.rtgiapi.rest.endpoint.repository.model.Event.builder()
+    return mg.vnnd.rtgiapi.rest.endpoint.repository.model.EventModel.builder()
         .id(event.getId())
         .beginDatetime(event.getBeginDatetime())
         .endDatetime(event.getEndDatetime())
@@ -25,21 +25,21 @@ public class EventMapper {
         .build();
   }
 
-  public Event toRest(mg.vnnd.rtgiapi.rest.endpoint.repository.model.Event event) {
+  public EventModel toRest(mg.vnnd.rtgiapi.rest.endpoint.repository.model.EventModel eventModel) {
     var location =
         new Location()
-            .name(event.getLocationName())
-            .longitude(event.getLongitude())
-            .latitude(event.getLatitude())
-            .address(event.getAddress());
-    return new Event()
-        .id(event.getId())
-        .beginDatetime(event.getBeginDatetime())
-        .endDatetime(event.getEndDatetime())
-        .eventType(event.getType())
-        .greenSpaceId(event.getGreenSpaceId())
-        .name(event.getName())
-        .meetingFee(event.getMeetingFee())
+            .name(eventModel.getLocationName())
+            .longitude(eventModel.getLongitude())
+            .latitude(eventModel.getLatitude())
+            .address(eventModel.getAddress());
+    return new EventModel()
+        .id(eventModel.getId())
+        .beginDatetime(eventModel.getBeginDatetime())
+        .endDatetime(eventModel.getEndDatetime())
+        .eventType(eventModel.getType())
+        .greenSpaceId(eventModel.getGreenSpaceId())
+        .name(eventModel.getName())
+        .meetingFee(eventModel.getMeetingFee())
         .location(location);
   }
 }

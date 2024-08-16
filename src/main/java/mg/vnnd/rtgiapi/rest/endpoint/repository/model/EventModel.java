@@ -24,7 +24,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Event {
+public class EventModel {
   @Id private String id;
 
   @Enumerated(STRING)
