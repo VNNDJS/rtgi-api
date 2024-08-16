@@ -193,6 +193,7 @@ paths:
         - bearerAuth: [ ]
       tags:
         - Green_Spaces
+      operationId: getGreenSpace
       responses:
         '200':
           description: green space identified by its id

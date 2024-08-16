@@ -73,7 +73,8 @@ public class SecurityConf {
                 new OrRequestMatcher(
                     antMatcher(GET, "/whoami"),
                     antMatcher(GET, "/users/*"),
-                    antMatcher(PUT, "/users/*"))),
+                    antMatcher(PUT, "/users/*"),
+                    antMatcher(PUT, "/green-spaces/*"))),
             AnonymousAuthenticationFilter.class)
         .authorizeHttpRequests(
             (authorize) ->
@@ -91,6 +92,12 @@ public class SecurityConf {
                     .requestMatchers(GET, "users/*")
                     .authenticated()
                     .requestMatchers(PUT, "users/*")
+                    .authenticated()
+                    .requestMatchers(GET, "/green-spaces")
+                    .permitAll()
+                    .requestMatchers(GET, "/green-spaces/*")
+                    .permitAll()
+                    .requestMatchers(PUT, "/green-spaces/*")
                     .authenticated()
                     .anyRequest()
                     .denyAll())
