@@ -1,5 +1,6 @@
 package mg.vnnd.rtgiapi.rest.endpoint.security;
 
+import static mg.vnnd.rtgiapi.rest.endpoint.repository.model.User.UserTypeEnum.GREEN_REPRESENTATIVE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.OPTIONS;
 import static org.springframework.http.HttpMethod.POST;
@@ -74,7 +75,8 @@ public class SecurityConf {
                     antMatcher(GET, "/whoami"),
                     antMatcher(GET, "/users/*"),
                     antMatcher(PUT, "/users/*"),
-                    antMatcher(PUT, "/green-spaces/*"))),
+                    antMatcher(PUT, "/green-spaces/*"),
+                    antMatcher(PUT, "/events/*"))),
             AnonymousAuthenticationFilter.class)
         .authorizeHttpRequests(
             (authorize) ->
@@ -98,7 +100,9 @@ public class SecurityConf {
                     .requestMatchers(GET, "/green-spaces/*")
                     .permitAll()
                     .requestMatchers(PUT, "/green-spaces/*")
-                    .authenticated()
+                    .hasRole(GREEN_REPRESENTATIVE.getRole())
+                    .requestMatchers(PUT, "/events/*")
+                    .hasRole(GREEN_REPRESENTATIVE.getRole())
                     .anyRequest()
                     .denyAll())
         // disable superfluous protections
