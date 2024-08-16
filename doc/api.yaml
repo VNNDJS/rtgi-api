@@ -1,0 +1,285 @@
+openapi: 3.0.3
+info:
+  title: Road To Green Island Api
+  description: Api to help Malagasy people to get to know our green spaces and our various species
+  version: latest
+servers:
+  - url: 'http:localhost:8080'
+paths:
+  /signup:
+    put:
+      operationId: signup
+      summary: sign up user
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/SignUpUser"
+      responses:
+        '200':
+          description: signup result
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/User"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /token:
+    post:
+      operationId: create-token
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/Credentials"
+      responses:
+        '200':
+          description: create token
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/BearerToken"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /users/{user_id}:
+    parameters:
+      - name: user_id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - Users
+      operationId: getUser
+      responses:
+        200:
+          description: the user identified by user_id
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/User"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - Users
+      operationId: crupdateUser
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        200:
+          description: the crupdated user
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+  /whoami:
+    get:
+      security:
+        - bearerAuth: [ ]
+      operationId: whoami
+      summary: tells you who you are
+      responses:
+        200:
+          description: you
+          content:
+            'application/json':
+              schema:
+                $ref: "#/components/schemas/Whoami"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  responses:
+    '400':
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BadRequestException'
+    '403':
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotAuthorizedException'
+    '404':
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ResourceNotFoundException'
+    '429':
+      description: Too many requests to the API
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TooManyRequestsException'
+    '500':
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InternalServerException'
+
+  schemas:
+    BearerToken:
+      type: object
+      properties:
+        token:
+          type: string
+    Credentials:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+    SignUpUser:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/Credentials"
+      properties:
+        type:
+          $ref: "#/components/schemas/UserTypeEnum"
+    UserTypeEnum:
+      type: string
+      enum:
+        - GREEN_REPRESENTATIVE
+        - COMMON
+    UpdateUserProfile:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        birthdate:
+          type: string
+          format: date
+    UserProfile:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/UpdateUserProfile"
+      properties:
+        type:
+          $ref: "#/components/schemas/UserTypeEnum"
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        profile:
+          $ref: "#/components/schemas/UserProfile"
+    Whoami:
+      type: object
+      properties:
+        user:
+          $ref: "#/components/schemas/User"
+        bearer:
+          type: string
+    #############################################
+    ###############  Paged Data #################
+    #############################################
+    PagedResponse:
+      type: object
+      properties:
+        page_size:
+          type: integer
+        page_number:
+          type: integer
+        has_previous:
+          type: boolean
+        count:
+          type: integer
+    #############################################
+    ###############  Exceptions #################
+    #############################################
+    ExceptionModel:
+      type: object
+      properties:
+        type:
+          type: string
+        message:
+          type: string
+    BadRequestException:
+      allOf:
+        - $ref: '#/components/schemas/ExceptionModel'
+      example:
+        type: BadRequestException
+        message: Bad request
+    NotAuthorizedException:
+      allOf:
+        - $ref: '#/components/schemas/ExceptionModel'
+      example:
+        type: NotAuthorizedException
+        message: Not authorized
+    ResourceNotFoundException:
+      allOf:
+        - $ref: '#/components/schemas/ExceptionModel'
+      example:
+        type: ResourceNotFoundException
+        message: Resource of type <T> identified by <I> not found
+    TooManyRequestsException:
+      allOf:
+        - $ref: '#/components/schemas/ExceptionModel'
+      example:
+        type: TooManyRequestsException
+        message: Too many requests
+    InternalServerException:
+      allOf:
+        - $ref: '#/components/schemas/ExceptionModel'
+      example:
+        type: InternalServerException
+        message: Unexpected error
