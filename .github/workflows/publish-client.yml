@@ -71,7 +71,6 @@ jobs:
           cd build/gen-ts/
           sed -i "s/\"http:\/\/localhost:8080\"/\(import.meta.env.VITE_RTGI_API_URL || \"\"\)/g" base.ts
           sed -i "s/\"dependencies\"/\"peerDependencies\"/g" package.json
-          sed -i '11d' tsconfig.json && sed -i "s/\"es6\",/\"es6\",\"DOM\"/g" tsconfig.json
           echo -e "\n*.ts\nnode_module\n!*.d.ts\n.idea\n.vscode\n.openapi-generator\n.openapi-generator-ignore\ngit_push.sh" >> .npmignore
           npm config set always-auth true
           npm install
