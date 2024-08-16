@@ -1,5 +1,6 @@
 package mg.vnnd.rtgiapi.rest.endpoint.security;
 
+import static mg.vnnd.rtgiapi.rest.endpoint.repository.model.User.UserTypeEnum.COMMON;
 import static mg.vnnd.rtgiapi.rest.endpoint.repository.model.User.UserTypeEnum.GREEN_REPRESENTATIVE;
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.OPTIONS;
@@ -90,24 +91,24 @@ public class SecurityConf {
                     .permitAll()
                     .requestMatchers(PUT, "/signup")
                     .permitAll()
-                    .requestMatchers(GET, "/whoami")
-                    .authenticated()
-                    .requestMatchers(GET, "users/*")
-                    .authenticated()
-                    .requestMatchers(PUT, "users/*")
-                    .authenticated()
                     .requestMatchers(GET, "/green-spaces")
                     .permitAll()
                     .requestMatchers(GET, "/green-spaces/*")
                     .permitAll()
+                    .requestMatchers(GET, "/green-spaces/*/animal-statistics")
+                    .permitAll()
+                    .requestMatchers(GET, "/whoami")
+                    .hasAnyRole(COMMON.getRole(), GREEN_REPRESENTATIVE.getRole())
+                    .requestMatchers(GET, "users/*")
+                    .hasAnyRole(COMMON.getRole(), GREEN_REPRESENTATIVE.getRole())
+                    .requestMatchers(PUT, "users/*")
+                    .hasAnyRole(COMMON.getRole(), GREEN_REPRESENTATIVE.getRole())
                     .requestMatchers(PUT, "/green-spaces/*")
                     .hasRole(GREEN_REPRESENTATIVE.getRole())
                     .requestMatchers(PUT, "/events/*")
                     .hasRole(GREEN_REPRESENTATIVE.getRole())
                     .requestMatchers(PUT, "/green-spaces/*/animal-statistics")
                     .hasRole(GREEN_REPRESENTATIVE.getRole())
-                    .requestMatchers(GET, "/green-spaces/*/animal-statistics")
-                    .permitAll()
                     .anyRequest()
                     .denyAll())
         // disable superfluous protections
