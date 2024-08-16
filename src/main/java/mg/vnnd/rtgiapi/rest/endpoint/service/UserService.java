@@ -2,9 +2,11 @@ package mg.vnnd.rtgiapi.rest.endpoint.service;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.Optional;
 import lombok.AllArgsConstructor;
 import mg.vnnd.rtgiapi.endpoint.rest.model.SignUpUser;
 import mg.vnnd.rtgiapi.model.exception.BadRequestException;
+import mg.vnnd.rtgiapi.model.exception.NotFoundException;
 import mg.vnnd.rtgiapi.rest.endpoint.repository.model.User;
 import mg.vnnd.rtgiapi.rest.endpoint.repository.model.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,5 +29,14 @@ public class UserService {
             .type(signUpUser.getType())
             .encodedPassword(passwordEncoder.encode(signUpUser.getPassword()))
             .build());
+  }
+
+  public User getById(String userId) {
+    return findById(userId)
+        .orElseThrow(() -> new NotFoundException("User with id " + userId + " not found"));
+  }
+
+  public Optional<User> findById(String userId) {
+    return repository.findById(userId);
   }
 }
