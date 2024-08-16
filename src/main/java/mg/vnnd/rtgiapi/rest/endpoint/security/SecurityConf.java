@@ -2,6 +2,8 @@ package mg.vnnd.rtgiapi.rest.endpoint.security;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.OPTIONS;
+import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
@@ -67,11 +69,31 @@ public class SecurityConf {
                                 req, res, null, forbiddenWithRemoteInfo(e, req))))
         .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
         .addFilterBefore(
-            bearerFilter(new OrRequestMatcher(antMatcher(GET, "/whoami"))),
+            bearerFilter(
+                new OrRequestMatcher(
+                    antMatcher(GET, "/whoami"),
+                    antMatcher(GET, "/users/*"),
+                    antMatcher(PUT, "/users/*"))),
             AnonymousAuthenticationFilter.class)
         .authorizeHttpRequests(
             (authorize) ->
-                authorize.requestMatchers(OPTIONS, "/**").permitAll().anyRequest().permitAll())
+                authorize
+                    .requestMatchers(OPTIONS, "/**")
+                    .permitAll()
+                    .requestMatchers(GET, "/ping")
+                    .permitAll()
+                    .requestMatchers(POST, "/token")
+                    .permitAll()
+                    .requestMatchers(PUT, "/signup")
+                    .permitAll()
+                    .requestMatchers(GET, "/whoami")
+                    .authenticated()
+                    .requestMatchers(GET, "users/*")
+                    .authenticated()
+                    .requestMatchers(PUT, "users/*")
+                    .authenticated()
+                    .anyRequest()
+                    .denyAll())
         // disable superfluous protections
         // Eg if all clients are non-browser then no csrf
         // https://docs.spring.io/spring-security/site/docs/3.2.0.CI-SNAPSHOT/reference/html/csrf.html,
