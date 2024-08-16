@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Table(name = "\"green_space\"")
+@Table(name = "\"green-space\"")
 @Entity
 @Getter
 @Setter
