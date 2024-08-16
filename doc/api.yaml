@@ -327,6 +327,7 @@ paths:
           $ref: '#/components/responses/500'
   /events:
     get:
+      operationId: getEvents
       security:
         - bearerAuth: [ ]
       tags:
@@ -334,6 +335,10 @@ paths:
       parameters:
         - $ref: "#/components/parameters/page"
         - $ref: "#/components/parameters/page_size"
+        - name: green_space_id
+          schema:
+            type: string
+          in: query
       responses:
         '200':
           description: paged list of events
@@ -348,6 +353,43 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Event'
+  /events/{event_id}:
+    parameters:
+      - name: event_id
+        schema:
+          type: string
+        in: path
+        required: true
+    get:
+      security:
+        - bearerAuth: [ ]
+      tags:
+        - Events
+      responses:
+        '200':
+          description: event identified by id
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/CrupdateEvent'
+    put:
+      security:
+        - bearerAuth: [ ]
+      operationId: crupdateEvent
+      tags:
+        - Events
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              $ref: "#/components/schemas/Event"
+      responses:
+        '200':
+          description: crupdated event
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Event'
 components:
   securitySchemes:
     bearerAuth:
@@ -547,7 +589,7 @@ components:
         - INDOOR
         - OUTDOOR
 
-    Event:
+    CrupdateEvent:
       type: object
       properties:
         id:
@@ -558,6 +600,26 @@ components:
           type: string
         location:
           $ref: "#/components/schemas/Location"
+        begin_datetime:
+          type: string
+          format: date-time
+        end_datetime:
+          type: string
+          format: date-time
+        description:
+          type: string
+        green_space_id:
+          type: string
+        meeting_fee:
+          type: number
+    Event:
+      type: object
+      allOf:
+        - $ref: "#/components/schemas/CrupdateEvent"
+      properties:
+        creation_datetime:
+          type: string
+          format: date-time
     #############################################
     ###############  Paged Data #################
     #############################################
