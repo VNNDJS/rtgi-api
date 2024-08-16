@@ -10,7 +10,7 @@ import mg.vnnd.rtgiapi.endpoint.rest.model.UpdateUserProfile;
 import mg.vnnd.rtgiapi.model.exception.BadRequestException;
 import mg.vnnd.rtgiapi.model.exception.NotFoundException;
 import mg.vnnd.rtgiapi.rest.endpoint.repository.model.User;
-import mg.vnnd.rtgiapi.rest.endpoint.repository.model.UserRepository;
+import mg.vnnd.rtgiapi.rest.endpoint.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
