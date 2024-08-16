@@ -142,6 +142,9 @@ paths:
         schema:
           type: string
     get:
+      parameters:
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/page_size"
       security:
         - bearerAuth: [ ]
       tags:
@@ -229,6 +232,8 @@ paths:
           in: query
           schema:
             type: boolean
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/page_size"
       responses:
         '200':
           description: list of species
@@ -270,6 +275,8 @@ paths:
           in: query
           schema:
             type: boolean
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/page_size"
       responses:
         '200':
           description: list of species
@@ -300,6 +307,9 @@ paths:
         - bearerAuth: [ ]
       tags:
         - Events
+      parameters:
+        - $ref: "#/components/parameters/page"
+        - $ref: "#/components/parameters/page_size"
       responses:
         '200':
           description: paged list of events
@@ -350,7 +360,24 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/InternalServerException'
-
+  parameters:
+    page:
+      name: page
+      in: query
+      description: page number
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    page_size:
+      name: page_size
+      in: query
+      description: page_size
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 500
+        default: 30
   schemas:
     BearerToken:
       type: object
