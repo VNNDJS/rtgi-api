@@ -46,6 +46,11 @@ public class UserService {
     return repository.findByEmail(email);
   }
 
+  public User getByEmail(String email) {
+    return findByEmail(email)
+        .orElseThrow(() -> new NotFoundException("User with email " + email + " not found"));
+  }
+
   @Transactional
   public User update(String userId, UpdateUserProfile userProfile) {
     User persisted = getById(userId);
