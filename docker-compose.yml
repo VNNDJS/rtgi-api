@@ -1,0 +1,31 @@
+services:
+  database:
+    image: postgres:latest
+    container_name: ${PG_CONTAINER_NAME}
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_DB: ${PG_DATABASE}
+    volumes:
+      - ~/docker-compose/${PG_CONTAINER_NAME}:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+  api:
+    container_name: ${API_CONTAINER_NAME}
+    build:
+      context: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      database:
+        condition: service_healthy
+
+networks:
+  default:
+    name: rtgi_network
