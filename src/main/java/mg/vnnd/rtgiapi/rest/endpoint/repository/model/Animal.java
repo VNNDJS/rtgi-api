@@ -15,7 +15,7 @@ import lombok.Setter;
 import mg.vnnd.rtgiapi.endpoint.rest.model.AnimalGender;
 import org.hibernate.annotations.JdbcTypeCode;
 
-@Table(name = "\"event\"")
+@Table(name = "\"animal\"")
 @Entity
 @Getter
 @Setter
