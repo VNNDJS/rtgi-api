@@ -20,8 +20,8 @@ public class PlantController {
   private final PlantService service;
   private final PlantMapper mapper;
 
-  @GetMapping("/green-spaces/{gsp_id}/animal-statistics")
-  public GetGspPlantsStats200Response getGspAnimals(
+  @GetMapping("/green-spaces/{gsp_id}/plant-statistics")
+  public GetGspPlantsStats200Response getGspPlants(
       @PathVariable("gsp_id") String gspId,
       @RequestParam(required = false, name = "is_endemic") Boolean isEndemic,
       @RequestParam(value = "page", required = false) PageFromOne page,
@@ -35,8 +35,8 @@ public class PlantController {
         .data(data.data().stream().map(mapper::toRest).toList());
   }
 
-  @PutMapping("/green-spaces/{gsp_id}/animal-statistics")
-  public CrupdateGspPlantsStatsRequest crupdateGspAnimalsStats(
+  @PutMapping("/green-spaces/{gsp_id}/plant-statistics")
+  public CrupdateGspPlantsStatsRequest crupdateGspPlantsStats(
       @PathVariable("gsp_id") String gspId, @RequestBody CrupdateGspPlantsStatsRequest body) {
     var data = service.saveAll(body.getData().stream().map(mapper::toDomain).toList());
     return new CrupdateGspPlantsStatsRequest().data(data.stream().map(mapper::toRest).toList());
