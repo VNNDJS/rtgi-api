@@ -28,7 +28,7 @@ public class UserService {
         User.builder()
             .id(signUpUser.getId())
             .email(signUpUser.getEmail())
-            .type(signUpUser.getType())
+            .type(User.UserTypeEnum.fromRest(requireNonNull(signUpUser.getType())))
             .encodedPassword(passwordEncoder.encode(signUpUser.getPassword()))
             .build());
   }
@@ -40,6 +40,10 @@ public class UserService {
 
   public Optional<User> findById(String userId) {
     return repository.findById(userId);
+  }
+
+  public Optional<User> findByEmail(String email) {
+    return repository.findByEmail(email);
   }
 
   @Transactional

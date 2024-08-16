@@ -11,10 +11,8 @@ public class UserMapper {
         new UserProfile()
             .email(user.getEmail())
             .birthdate(user.getBirthdate())
-            .type(user.getType())
+            .type(user.getType().toRest())
             .name(user.getName());
-    return new User()
-      .profile(profile)
-      .id(user.getId());
+    return new User().profile(profile).id(user.getId());
   }
 }

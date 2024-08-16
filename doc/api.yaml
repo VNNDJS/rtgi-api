@@ -117,6 +117,9 @@ paths:
           $ref: '#/components/responses/500'
   /whoami:
     get:
+      tags:
+        - Security
+        - Default
       security:
         - bearerAuth: [ ]
       operationId: whoami
