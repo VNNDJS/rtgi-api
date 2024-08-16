@@ -399,6 +399,8 @@ components:
       properties:
         type:
           $ref: "#/components/schemas/UserTypeEnum"
+        id:
+          type: string
     UserTypeEnum:
       type: string
       enum:
