@@ -145,7 +145,7 @@ paths:
     parameters:
       - name: user_id
         in: query
-        required: true
+        required: false
         schema:
           type: string
     get:
@@ -240,17 +240,21 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
-  /animals:
+  /green-spaces/{gsp_id}/animal-statistics:
+    parameters:
+      - name: gsp_id
+        required: true
+        in: path
+        schema:
+          type: string
+        description: filter animals by green_space
     get:
+      tags:
+        - Animals
+      operationId: getGspAnimals
       security:
         - bearerAuth: [ ]
       parameters:
-        - name: green_space_id
-          required: false
-          in: query
-          schema:
-            type: string
-          description: filter animals by green_space
         - name: is_endemic
           required: false
           in: query
@@ -282,18 +286,59 @@ paths:
           $ref: '#/components/responses/429'
         '500':
           $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Animals
+      operationId: crupdateGspAnimalsStats
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Animal"
+      responses:
+        '200':
+          description: list of species
+          content:
+            'application/json':
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Animal"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
 
-  /plants:
+  /green-spaces/{gsp_id}/plant-statistics:
+    parameters:
+      - name: gsp_id
+        required: true
+        in: path
+        schema:
+          type: string
+        description: filter animals by green_space
     get:
+      tags:
+        - Plants
       security:
         - bearerAuth: [ ]
       parameters:
-        - name: green_space_id
-          required: false
-          in: query
-          schema:
-            type: string
-          description: filter animals by green_space
         - name: is_endemic
           required: false
           in: query
@@ -303,13 +348,48 @@ paths:
         - $ref: "#/components/parameters/page_size"
       responses:
         '200':
-          description: list of species
+          description: list of plants
           content:
             'application/json':
               schema:
                 type: object
-                allOf:
-                  - $ref: "#/components/schemas/PagedResponse"
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Plant"
+        '400':
+          $ref: '#/components/responses/400'
+        '403':
+          $ref: '#/components/responses/403'
+        '404':
+          $ref: '#/components/responses/404'
+        '429':
+          $ref: '#/components/responses/429'
+        '500':
+          $ref: '#/components/responses/500'
+    put:
+      tags:
+        - Plants
+      security:
+        - bearerAuth: [ ]
+      requestBody:
+        content:
+          "application/json":
+            schema:
+              type: object
+              properties:
+                data:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Plant"
+      responses:
+        '200':
+          description: list of plants
+          content:
+            'application/json':
+              schema:
+                type: object
                 properties:
                   data:
                     type: array
@@ -548,7 +628,7 @@ components:
       enum:
         - M
         - F
-    LivingSpecy:
+    NumberedGspLivingSpecy:
       type: object
       properties:
         id:
@@ -557,10 +637,14 @@ components:
           type: string
         is_endemic:
           type: boolean
+        green_space_id:
+          type: string
+        number:
+          type: integer
     Animal:
       type: object
       allOf:
-        - $ref: "#/components/schemas/LivingSpecy"
+        - $ref: "#/components/schemas/NumberedGspLivingSpecy"
       properties:
         gender:
           $ref: "#/components/schemas/AnimalGender"
@@ -571,7 +655,7 @@ components:
     Plant:
       type: object
       allOf:
-        - $ref: "#/components/schemas/LivingSpecy"
+        - $ref: "#/components/schemas/NumberedGspLivingSpecy"
       properties:
         id:
           type: string
