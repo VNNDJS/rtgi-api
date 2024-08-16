@@ -15,7 +15,7 @@ create table if not exists "event"
     latitude          double precision,
     location_name     varchar,
     address           varchar,
-    green_space_id    varchar references green_space ("id"),
+    green_space_id    varchar references "green-space" ("id"),
     description       text,
     creation_datetime timestamp without time zone not null default now(),
     begin_datetime    timestamp without time zone,
