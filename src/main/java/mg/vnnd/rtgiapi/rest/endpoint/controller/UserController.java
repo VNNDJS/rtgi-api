@@ -2,6 +2,7 @@ package mg.vnnd.rtgiapi.rest.endpoint.controller;
 
 import lombok.AllArgsConstructor;
 import mg.vnnd.rtgiapi.endpoint.rest.model.SignUpUser;
+import mg.vnnd.rtgiapi.endpoint.rest.model.UpdateUserProfile;
 import mg.vnnd.rtgiapi.endpoint.rest.model.User;
 import mg.vnnd.rtgiapi.rest.endpoint.controller.mapper.UserMapper;
 import mg.vnnd.rtgiapi.rest.endpoint.service.UserService;
@@ -25,5 +26,11 @@ public class UserController {
   @GetMapping("/users/{user_id}")
   public User getUser(@PathVariable("user_id") String userId) {
     return mapper.toRest(service.getById(userId));
+  }
+
+  @PutMapping("/users/{user_id}")
+  public User updateUserProfile(
+      @PathVariable("user_id") String userId, @RequestBody UpdateUserProfile profile) {
+    return mapper.toRest(service.update(userId, profile));
   }
 }

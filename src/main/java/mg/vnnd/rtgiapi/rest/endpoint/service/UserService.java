@@ -2,9 +2,11 @@ package mg.vnnd.rtgiapi.rest.endpoint.service;
 
 import static java.util.Objects.requireNonNull;
 
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 import lombok.AllArgsConstructor;
 import mg.vnnd.rtgiapi.endpoint.rest.model.SignUpUser;
+import mg.vnnd.rtgiapi.endpoint.rest.model.UpdateUserProfile;
 import mg.vnnd.rtgiapi.model.exception.BadRequestException;
 import mg.vnnd.rtgiapi.model.exception.NotFoundException;
 import mg.vnnd.rtgiapi.rest.endpoint.repository.model.User;
@@ -38,5 +40,14 @@ public class UserService {
 
   public Optional<User> findById(String userId) {
     return repository.findById(userId);
+  }
+
+  @Transactional
+  public User update(String userId, UpdateUserProfile userProfile) {
+    User persisted = getById(userId);
+    persisted.setEmail(userProfile.getEmail());
+    persisted.setBirthdate(userProfile.getBirthdate());
+    persisted.setName(userProfile.getName());
+    return repository.save(persisted);
   }
 }
