@@ -3,6 +3,7 @@ package mg.vnnd.rtgiapi.rest.endpoint.repository.model;
 import static jakarta.persistence.EnumType.STRING;
 import static org.hibernate.type.SqlTypes.NAMED_ENUM;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
@@ -29,6 +30,7 @@ public class User {
   private String name;
   private String email;
   private LocalDate birthdate;
+  @Column(name = "password")
   private String encodedPassword;
 
   @JdbcTypeCode(NAMED_ENUM)
