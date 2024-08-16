@@ -58,7 +58,7 @@ tasks.register('generateJavaClient', org.openapitools.generator.gradle.plugin.ta
     library = "native"
 
     groupId = 'mg.vnnd.rtgi'
-    id = 'rtgi-api'
+    id = 'rtgi-api-gen'
     skipValidateSpec = false
     logToStderr = true
     generateAliasAsModel = false
@@ -111,6 +111,8 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'org.openapitools:jackson-databind-nullable:0.2.6'
     implementation 'io.swagger:swagger-annotations:1.6.12'
+    implementation 'mg.vnnd.rtgi:rtgi-api-gen:latest'
+
 }
 
 hibernate {
