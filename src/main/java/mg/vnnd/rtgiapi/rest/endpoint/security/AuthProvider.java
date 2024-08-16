@@ -1,5 +1,6 @@
 package mg.vnnd.rtgiapi.rest.endpoint.security;
 
+import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
 import mg.vnnd.rtgiapi.rest.endpoint.security.model.Principal;
 import mg.vnnd.rtgiapi.rest.endpoint.service.UserService;
@@ -36,7 +37,12 @@ public class AuthProvider extends AbstractUserDetailsAuthenticationProvider {
     if (jwtService.isTokenExpired(bearer)) {
       throw new AuthenticationServiceException("token expired");
     }
-    var extractedEmail = jwtService.extractUsername(bearer);
+    String extractedEmail;
+    try {
+      extractedEmail = jwtService.extractUsername(bearer);
+    } catch (JwtException e) {
+      throw new AuthenticationServiceException("bad token");
+    }
     var user = userService.findByEmail(extractedEmail);
     if (user.isEmpty()) {
       throw new UsernameNotFoundException("Bad credentials");

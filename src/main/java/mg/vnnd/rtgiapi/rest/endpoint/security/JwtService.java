@@ -4,6 +4,7 @@ import static io.jsonwebtoken.SignatureAlgorithm.*;
 import static io.jsonwebtoken.io.Decoders.BASE64;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
@@ -23,9 +24,9 @@ public class JwtService {
   }
 
   // Generate token with given user name
-  public String generateToken(String userName) {
+  public String generateToken(String email) {
     Map<String, Object> claims = new HashMap<>();
-    return createToken(claims, userName);
+    return createToken(claims, email);
   }
 
   // Create a JWT token with specified claims and subject (email)
@@ -47,7 +48,7 @@ public class JwtService {
   }
 
   // Extract the username from the token
-  public String extractUsername(String token) {
+  public String extractUsername(String token) throws JwtException {
     return extractClaim(token, Claims::getSubject);
   }
 
@@ -64,7 +65,7 @@ public class JwtService {
 
   // Extract all claims from the token
   private Claims extractAllClaims(String token) {
-    return Jwts.parser().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody();
+    return Jwts.parser().setSigningKey(getSignKey()).build().parseSignedClaims(token).getPayload();
   }
 
   // Check if the token is expired
