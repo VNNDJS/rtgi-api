@@ -1,3 +1,12 @@
+# [0.3.0](https://github.com/VNNDJS/rtgi-api/compare/v0.2.0...v0.3.0) (2024-08-17)
+
+
+### Features
+
+* plants ([6980fd4](https://github.com/VNNDJS/rtgi-api/commit/6980fd438a5b2c133b876edf191e808f7627af3a))
+
+
+
 # [0.2.0](https://github.com/VNNDJS/rtgi-api/compare/v0.1.1...v0.2.0) (2024-08-16)
 
 
